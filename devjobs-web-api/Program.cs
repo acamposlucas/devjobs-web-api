@@ -19,6 +19,7 @@ var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+    await db.Database.EnsureDeletedAsync();
     if (await db.Database.EnsureCreatedAsync())
     {
         await SeedData.InitializeAsync(db);
