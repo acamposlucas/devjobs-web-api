@@ -55,6 +55,19 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
+app.MapGet("/companies", async (DataContext context) => await context.Companies.ToListAsync());
+
+app.MapGet("/jobs", async (DataContext context) =>
+{
+    var jobs = await context.Jobs
+        .Include(j => j.Company)
+        .Include(j => j.Requirements).ThenInclude(r => r.Items)
+        .Include(j => j.Role).ThenInclude(r => r.Items)
+        .ToListAsync();
+
+    return jobs;
+});
+
 app.Run();
 
 internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

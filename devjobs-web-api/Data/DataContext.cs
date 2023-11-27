@@ -1,7 +1,5 @@
 ﻿using devjobs_web_api.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System.Reflection.Metadata;
 
 namespace devjobs_web_api.Data;
 

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace devjobs_web_api.Entities;
 
@@ -18,5 +19,6 @@ public class Company
     [Required]
     public string ApplyWebsite { get; set; }
 
+    [JsonIgnore]
     public ICollection<Job> Jobs { get; set; } = new List<Job>();
 }
