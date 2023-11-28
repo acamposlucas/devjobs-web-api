@@ -1,4 +1,5 @@
 using devjobs_web_api.Data;
+using devjobs_web_api.Entities;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,6 +68,18 @@ app.MapGet("/jobs", async (DataContext context) =>
         .ToListAsync();
 
     return jobs;
+});
+
+app.MapGet("jobs/summaries", async (DataContext context) =>
+{
+    var summaries = await context.Jobs
+        .Include(j => j.Company)
+        .OrderBy(j => j.PostedAt)
+        .ToListAsync();
+
+    var result = from job in summaries select new { Company = job.Company.Name, PostedAt = job.PostedAt, Position = job.Position, Contract = job.ContractType, Location = job.Location, BackgroundColor = job.Company.LogoBackground };
+
+    return result;
 });
 
 app.Run();
