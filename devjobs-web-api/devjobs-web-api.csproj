@@ -19,4 +19,19 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\logos\blogr.svg" />
+    <None Include="wwwroot\logos\coffeeroasters.svg" />
+    <None Include="wwwroot\logos\creative.svg" />
+    <None Include="wwwroot\logos\crowdfund.svg" />
+    <None Include="wwwroot\logos\maker.svg" />
+    <None Include="wwwroot\logos\mastercraft.svg" />
+    <None Include="wwwroot\logos\officelite.svg" />
+    <None Include="wwwroot\logos\pod.svg" />
+    <None Include="wwwroot\logos\pomodoro.svg" />
+    <None Include="wwwroot\logos\scoot.svg" />
+    <None Include="wwwroot\logos\typemaster.svg" />
+    <None Include="wwwroot\logos\vector.svg" />
+  </ItemGroup>
+
 </Project>
