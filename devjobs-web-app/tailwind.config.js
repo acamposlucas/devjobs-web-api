@@ -26,6 +26,12 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Kumbh Sans"]
+      },
+      backgroundImage: {
+        'bg-header-mobile': "url('../src/assets/mobile/bg-pattern-header.svg')",
+        'bg-header-tablet': "url('../src/assets/tablet/bg-pattern-header.svg')",
+        'bg-header-desktop': "url('../src/assets/desktop/bg-pattern-header.svg')"
+        
       }
     },
   },
