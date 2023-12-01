@@ -8,7 +8,7 @@ module.exports = {
       colors: {
         primary: {
           violet: {
-            700: "#9e7f66",
+            700: "#5964E0",
             400: "#939BF4"
           },
           blue: {
@@ -31,9 +31,11 @@ module.exports = {
         'bg-header-mobile': "url('../src/assets/mobile/bg-pattern-header.svg')",
         'bg-header-tablet': "url('../src/assets/tablet/bg-pattern-header.svg')",
         'bg-header-desktop': "url('../src/assets/desktop/bg-pattern-header.svg')"
-        
       }
     },
+    gridTemplateColumns: {
+      'fit-sm': 'repeat(auto-fit, minmax(328px, 1fr))',
+    }
   },
   plugins: [],
 }
