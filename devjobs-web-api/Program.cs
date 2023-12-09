@@ -70,6 +70,18 @@ app.MapGet("/jobs", async (DataContext context) =>
     return jobs;
 });
 
+app.MapGet("/jobs/{id:int}", async (DataContext context, int id) =>
+{
+    var job = await context.Jobs
+        .Include(j => j.Company)
+        .Include(j => j.Requirements).ThenInclude(r => r.Items)
+        .Include(j => j.Role).ThenInclude(r => r.Items)
+        .Where(j => j.Id == id)
+        .ToListAsync();
+
+    return job;
+});
+
 app.MapGet("jobs/summaries", async (DataContext context) =>
 {
     var summaries = await context.Jobs

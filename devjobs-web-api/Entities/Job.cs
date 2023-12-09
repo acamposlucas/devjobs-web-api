@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace devjobs_web_api.Entities;
+﻿namespace devjobs_web_api.Entities;
 
 public class Job
 {
