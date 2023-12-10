@@ -4,10 +4,14 @@
     </div>
     <main class="mt-24">
         <section class="grid gap-14 grid-cols-fit-sm">
-            @for (item of [].constructor(5); track $index) {
-                <a [routerLink]="['job', $index]">
-                    <app-jobcard></app-jobcard>
-                </a>
+            @defer {
+            @for (job of jobList$ | async; track job.id) {
+            <a [routerLink]="['job', job.id]">
+                <app-jobcard [job]="job"></app-jobcard>
+            </a>
+            }
+            } @loading {
+            <p>Loading...</p>
             }
         </section>
     </main>
