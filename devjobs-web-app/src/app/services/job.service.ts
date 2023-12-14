@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { JobSummary } from '../@types/Job';
+import { Job, JobSummary } from '../@types/Job';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
@@ -12,5 +12,9 @@ export class JobService {
 
   getJobsSummariesList() {
     return this.httpClient.get<JobSummary[]>(`${environment.apiUrl}/jobs/summaries`);
+  }
+
+  getJobById(id: number) {
+    return this.httpClient.get<Job>(`${environment.apiUrl}/jobs/${id}`);
   }
 }
