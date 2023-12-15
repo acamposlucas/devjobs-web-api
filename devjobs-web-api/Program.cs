@@ -97,7 +97,7 @@ app.MapGet("/jobs/{id:int}", async (DataContext context, int id) =>
         .Include(j => j.Requirements).ThenInclude(r => r.Items)
         .Include(j => j.Role).ThenInclude(r => r.Items)
         .Where(j => j.Id == id)
-        .ToListAsync();
+        .FirstOrDefaultAsync();
 
     return job;
 });
@@ -106,7 +106,7 @@ app.MapGet("jobs/summaries", async (DataContext context) =>
 {
     var summaries = await context.Jobs
         .Include(j => j.Company)
-        .OrderBy(j => j.PostedAt)
+        .OrderByDescending(j => j.PostedAt)
         .ToListAsync();
 
     var result = from job in summaries select new { Id = job.Id, Company = job.Company.Name, PostedAt = job.PostedAt, Position = job.Position, Contract = job.ContractType, Location = job.Location, BackgroundColor = job.Company.LogoBackground };
