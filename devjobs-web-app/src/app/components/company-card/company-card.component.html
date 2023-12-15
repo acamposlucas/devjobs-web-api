@@ -1,10 +1,14 @@
-<div class="max-w-3xl w-full -mt-3 bg-white rounded-md mx-auto py-8">
-    <div class="w-12 h-12 rounded-2xl bg-orange-400 -mt-14 mx-auto"></div>
-    <div class="flex flex-col items-center mt-6">
-        <strong class="text-xl text-primary-blue-900">Scoot</strong>
-        <span class="text-secondary-grey-400">scoot.com</span>
+<div class="max-w-3xl w-full -mt-3 bg-white rounded-md mx-auto py-8 md:py-0 md:overflow-hidden md:flex md:items-center">
+    <div class="flex items-center justify-center w-12 h-12 rounded-2xl md:rounded-none bg-orange-400 -mt-14 md:mt-0 mx-auto md:w-36 md:h-36 md:mx-0 flex-initial"
+        #logo></div>
+    <div class="md:px-10 md:flex items-center justify-between md:gap-36">
+        <div class="flex flex-col items-center mt-6 md:mt-0">
+            <strong class="text-xl text-primary-blue-900">{{company.name}}</strong>
+            <span class="text-secondary-grey-400">{{company.website}}</span>
+        </div>
+        <a [href]="company.website"
+            class="block mx-auto mt-7 w-fit font-bold text-primary-violet-700 bg-primary-violet-400 hover:bg-primary-violet-700 hover:bg-opacity-30 bg-opacity-10 py-4 px-5 rounded-md md:mt-0 md:mx-0">Company
+            Site</a>
+
     </div>
-    <a href="#"
-        class="block mx-auto mt-7 w-fit font-bold text-primary-violet-700 bg-primary-violet-400 hover:bg-primary-violet-700 hover:bg-opacity-30 bg-opacity-10 py-4 px-5 rounded-md">Company
-        Site</a>
 </div>

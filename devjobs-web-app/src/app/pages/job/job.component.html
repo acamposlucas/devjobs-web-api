@@ -1,7 +1,7 @@
 @if (job$ | async; as job) {
 <div class="w-11/12 max-w-6xl mx-auto">
     <div role="presentation">
-        <app-company-card></app-company-card>
+        <app-company-card [company]="job.company"></app-company-card>
     </div>
     <main class="mt-6">
         <article class="bg-white max-w-3xl mx-auto px-6 py-10 md:py-12 rounded-md">
@@ -12,29 +12,53 @@
                         <span class="w-1 h-1 rounded-full bg-secondary-grey-700 block"></span>
                         <span>{{job.contractType}}</span>
                     </div>
-                    <h1 class="text-xl font-bold md:text-3xl">{{job.position}}</h1>
+                    <h1 class="text-xl mt-2 mb-3 font-bold md:text-3xl">{{job.position}}</h1>
                     <strong class="text-primary-violet-700">{{job.location}}</strong>
                 </div>
-                <a [href]="job.company.applywebsite"
-                    class="flex items-center justify-center bg-primary-violet-700 hover:bg-primary-violet-400 rounded-md h-12 font-bold text-white px-7">Apply
-                    Now</a>
+                <div class="mt-12">
+                    <a [href]="job.company.applywebsite"
+                        class="flex items-center justify-center bg-primary-violet-700 hover:bg-primary-violet-400 rounded-md h-12 font-bold text-white px-7">Apply
+                        Now</a>
+                </div>
             </div>
-            <div>
+            <div class="mt-10">
                 <h2 class="sr-only">Description</h2>
                 <p class="text-secondary-grey-400">{{job.description}}</p>
-                <div>
-                    <h2 class="">Requirements</h2>
-                    <p class="text-secondary-grey-400">{{job.requirements.content}}</p>
-                    <ul>
-                        @for (item of job.requirements.items; track item.id) {
-                        <li>{{ item.description }}</li>
-                        } @empty {
-                        <li>req</li>
-                        }
-                    </ul>
-                </div>
+            </div>
+            <div class="mt-10">
+                <h2 class="mb-7 text-primary-blue-900 font-bold text-xl">Requirements</h2>
+                <p class="text-secondary-grey-400 mb-8">{{job.requirements.content}}</p>
+                <ul role="list" class="">
+                    @for (item of job.requirements.items; track item.id) {
+                    <li class="flex gap-9 text-secondary-grey-400 mb-2">
+                        <span class="mt-2.5 w-1 h-1 rounded-full bg-primary-violet-700"></span>
+                        <span class="flex-1">{{ item.description }}</span>
+                    </li>
+                    } @empty {
+                    <li class="text-secondary-grey-400 mb-2">No requirements</li>
+                    }
+                </ul>
+            </div>
+            <div class="mt-10">
+                <h2 class="mb-7 text-primary-blue-900 font-bold text-xl">What You Will Do</h2>
+                <p class="text-secondary-grey-400 mb-8">{{job.role.content}}</p>
+                <ul role="list" class="">
+                    @for (item of job.role.items; track item.id;) {
+                    <li class="flex gap-9 text-secondary-grey-400 mb-2">
+                        <span class="text-primary-violet-700 font-bold">{{$index + 1}}</span>
+                        <span class="flex-1">{{ item.description }}</span>
+                    </li>
+                    } @empty {
+                    <li class="text-secondary-grey-400 mb-2">No items</li>
+                    }
+                </ul>
             </div>
         </article>
     </main>
 </div>
+<footer class="mt-16 bg-white rounded-s-lg rounded-e-lg p-6">
+    <a [href]="job.company.applywebsite"
+        class="bg-primary-violet-700 hover:bg-primary-violet-400 font-bold block rounded-md text-white p-4 text-center">Apply
+        now</a>
+</footer>
 }
