@@ -1,4 +1,6 @@
 using devjobs_web_api.Data;
+using devjobs_web_api.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -112,6 +114,26 @@ app.MapGet("jobs/summaries", async (DataContext context) =>
     var result = from job in summaries select new { Id = job.Id, Company = job.Company.Name, PostedAt = job.PostedAt, Position = job.Position, Contract = job.ContractType, Location = job.Location, BackgroundColor = job.Company.LogoBackground };
 
     return result;
+});
+
+app.MapPost("/jobs", async (CreateJob request, DataContext context) =>
+{
+    Job job = new Job
+    {
+        CompanyId = int.Parse(request.CompanyId),
+        ContractType = request.ContractType,
+        Description = request.Description,
+        Location = request.Location,
+        Position = request.Position,
+        PostedAt = DateTime.Now,
+    };
+
+    Requirements requirements = new Requirements();
+
+    foreach (var requirement in request.Requirements)
+    {
+        RequirementsItem item = new RequirementsItem{ Description = requirement.Value};
+    }
 });
 
 app.Run();
