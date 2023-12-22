@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: "job/:id",
     loadComponent: () => import('./pages/job/job.component').then(m => m.JobComponent)
+  },
+  {
+    path: "createJob",
+    loadComponent: () => import('./pages/new-job/new-job.component').then(m => m.NewJobComponent),
   }
 ];
 
