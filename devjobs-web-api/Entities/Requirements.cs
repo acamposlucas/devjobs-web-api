@@ -9,5 +9,5 @@ public class Requirements
     [JsonIgnore]
     public Job Job { get; set; }
     public string Content { get; set; }
-    public ICollection<RequirementsItem> Items { get; set; }
+    public ICollection<RequirementsItem> Items { get; set; } = new List<RequirementsItem>();
 }

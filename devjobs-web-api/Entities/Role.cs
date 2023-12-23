@@ -9,5 +9,5 @@ public class Role
     [JsonIgnore]
     public Job Job { get; set; }
     public string Content { get; set; }
-    public ICollection<RoleItem> Items { get; set; }
+    public ICollection<RoleItem> Items { get; set; } = new List<RoleItem>();
 }

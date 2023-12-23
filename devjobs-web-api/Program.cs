@@ -120,7 +120,6 @@ app.MapPost("/jobs", async (CreateJob request, DataContext context) =>
 {
     Job job = new Job
     {
-        CompanyId = int.Parse(request.CompanyId),
         ContractType = request.ContractType,
         Description = request.Description,
         Location = request.Location,
@@ -128,12 +127,46 @@ app.MapPost("/jobs", async (CreateJob request, DataContext context) =>
         PostedAt = DateTime.Now,
     };
 
+    var company = context.Companies.Find(request.CompanyId);
+    if (company is not null)
+    {
+        job.Company = company;
+    }
+
     Requirements requirements = new Requirements();
 
-    foreach (var requirement in request.Requirements)
+    requirements.Content = request.Requirements.Content;
+
+    foreach (var description in request.Requirements.Items)
     {
-        RequirementsItem item = new RequirementsItem{ Description = requirement.Value};
+        RequirementsItem item = new RequirementsItem{ Description = description };
+        requirements.Items.Add(item);
     }
+
+    Role role = new Role();
+
+    role.Content = request.Roles.Content;
+
+    foreach (var description in request.Roles.Items)
+    {
+        RoleItem item = new RoleItem { Description = description };
+        role.Items.Add(item);
+    }
+
+    job.Requirements = requirements;
+    job.Role = role;
+
+    context.Jobs.Add(job);
+
+    //requirements.Job = job;
+    //context.Requirements.Add(requirements);
+
+    //context.Roles.Add(role);
+    //role.Job = job;
+
+    await context.SaveChangesAsync();
+
+    return job;
 });
 
 app.Run();
