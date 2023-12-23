@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Company } from '../../@types/Company';
 import { CompanyService } from '../../services/company.service';
 import { Observable } from 'rxjs';
@@ -24,36 +24,51 @@ export class NewJobComponent {
   @ViewChild('roles') rolesContainer!: ElementRef<HTMLDivElement>;
 
   form = this.fb.group({
-    companyId: [''],
-    position: [''],
-    contractType: [''],
-    location: [''],
-    description: [''],
-    requirements: this.fb.array([this.fb.group({ value: '' })]),
-    roles: this.fb.array([this.fb.group({ value: '' })]),
+    companyId: ['', Validators.compose([Validators.required])],
+    position: ['', Validators.compose([Validators.required])],
+    contractType: ['', Validators.compose([Validators.required])],
+    location: ['', Validators.compose([Validators.required])],
+    description: ['', Validators.compose([Validators.required])],
+    requirements: this.fb.group({
+      content: ['', Validators.compose([Validators.required])],
+      items: this.fb.array([this.fb.control('')])
+    }),
+    roles: this.fb.group({
+      content: ['', Validators.compose([Validators.required])],
+      items: this.fb.array([this.fb.control('')])
+    }),
   })
 
-  constructor(private renderer: Renderer2, private fb: FormBuilder, private companyService: CompanyService, private jobService: JobService) {
+  constructor(private fb: FormBuilder, private companyService: CompanyService, private jobService: JobService) {
   }
 
   addItem(type: string): void {
     if (type === 'requirements') {
-      this.requirements.push(this.fb.group({ value: '' }));
+      this.requirementItems.push(this.fb.control(''));
     } else if (type === 'roles') {
-      this.roles.push(this.fb.group({ value: '' }));
+      this.roleItems.push(this.fb.control(''));
     }
   }
 
   onSubmit() {
     const newJob: CreateJob = this.form.getRawValue() as CreateJob;
+    console.log(newJob);
     this.jobService.createJob(newJob);
   }
 
   get requirements() {
-    return this.form.controls['requirements'] as FormArray;
+    return this.form.controls['requirements'] as FormGroup;
+  }
+
+  get requirementItems() {
+    return this.requirements.controls['items'] as FormArray;
   }
 
   get roles() {
-    return this.form.controls['roles'] as FormArray;
+    return this.form.controls['roles'] as FormGroup;
+  }
+
+  get roleItems() {
+    return this.roles.controls['items'] as FormArray;
   }
 }

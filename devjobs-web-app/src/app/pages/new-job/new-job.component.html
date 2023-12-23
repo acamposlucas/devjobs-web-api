@@ -1,4 +1,4 @@
-{{ form.getRawValue() | json }}
+{{ this.form.getRawValue() | json }}
 <div class="mx-auto w-11/12 max-w-3xl mt-10">
     <form class="flex flex-col gap-2" [formGroup]="form">
         <div>
@@ -22,26 +22,30 @@
             <input type="text" name="location" placeholder="Location" formControlName="location">
         </div>
         <div>
-            <textarea name="description" id="description" placeholder="Describe job"
+            <textarea name="description" id="description" placeholder="Describe the job..."
                 formControlName="description"></textarea>
         </div>
         <div>
-            <div #requirementsContainer class="flex flex-col gap-2" formArrayName="requirements">
-                @for (requirement of requirements.controls; track $index) {
-                <div [formGroupName]="$index">
-                    <input formControlName="value" type="text" placeholder="{{'Requirement ' + ($index + 1)}}" />
+            <div #requirementsContainer class="flex flex-col gap-2" formGroupName="requirements">
+                <textarea name="requirementsContent" id="requirementsContent"
+                    placeholder="Describe the requirements of the job..." formControlName="content"></textarea>
+                <div formArrayName="items" class="flex flex-col gap-2">
+                    @for (requirement of requirementItems.controls; track $index) {
+                    <input [formControlName]="$index" type="text" placeholder="{{'Requirement ' + ($index + 1)}}" />
+                    }
                 </div>
-                }
             </div>
             <button type="button" (click)="addItem('requirements')">Add requirement</button>
         </div>
         <div>
-            <div #rolesContainer class="flex flex-col gap-2" formArrayName="roles">
-                @for (role of roles.controls; track $index) {
-                <div [formGroupName]="$index">
-                    <input formControlName="value" type="text" placeholder="{{'Role ' + ($index + 1)}}" />
+            <div #rolesContainer class="flex flex-col gap-2" formGroupName="roles">
+                <textarea name="rolesContent" id="rolesContent" placeholder="Describe the role of the job..."
+                    formControlName="content"></textarea>
+                <div formArrayName="items" class="flex flex-col gap-2">
+                    @for (role of roleItems.controls; track $index) {
+                    <input [formControlName]="$index" type="text" placeholder="{{'Role ' + ($index + 1)}}" />
+                    }
                 </div>
-                }
             </div>
             <button type="button" (click)="addItem('roles')">Add role</button>
         </div>

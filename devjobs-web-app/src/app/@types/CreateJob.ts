@@ -4,6 +4,12 @@ export interface CreateJob {
     contractType: string,
     location: string,
     description: string,
-    requirements: { value: string }[],
-    roles: { value: string }[]
+    requirements: {
+        content: string,
+        items: string[]
+    },
+    roles: {
+        content: string,
+        items: string[]
+    }
 }
