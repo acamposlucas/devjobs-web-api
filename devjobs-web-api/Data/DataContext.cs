@@ -13,6 +13,7 @@ public class DataContext : DbContext
     public DbSet<RequirementsItem> RequirementsItems { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<RoleItem> RoleItems { get; set; }
+    public DbSet<Contract> Contracts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -45,5 +46,7 @@ public class DataContext : DbContext
             .WithOne(e => e.Role)
             .HasForeignKey(e => e.RoleId)
             .IsRequired();
+
+        modelBuilder.Entity<Contract>();
     }
 }

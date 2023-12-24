@@ -274,12 +274,19 @@ internal static class SeedData
             },
         ];
 
+        Contract[] contracts = [
+            new Contract() { Type = "Full Time"},    
+            new Contract() { Type = "Part Time"},    
+            new Contract() { Type = "Remote"},
+        ];
+
         db.Companies.AddRange(companies);
         db.Jobs.AddRange(jobs);
         db.Requirements.AddRange(requirements);
         db.RequirementsItems.AddRange(requirementsItems);
         db.Roles.AddRange(roles);
         db.RoleItems.AddRange(roleItems);
+        db.Contracts.AddRange(contracts);
 
         return db.SaveChangesAsync();
     }

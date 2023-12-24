@@ -33,7 +33,7 @@ var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<DataContext>();
-    await db.Database.EnsureDeletedAsync();
+    //await db.Database.EnsureDeletedAsync();
     if (await db.Database.EnsureCreatedAsync())
     {
         await SeedData.InitializeAsync(db);
@@ -167,6 +167,11 @@ app.MapPost("/jobs", async (CreateJob request, DataContext context) =>
     await context.SaveChangesAsync();
 
     return job;
+});
+
+app.MapGet("contracts", async (DataContext context) =>
+{
+    return await context.Contracts.OrderBy(c => c.Type).ToListAsync();
 });
 
 app.Run();
