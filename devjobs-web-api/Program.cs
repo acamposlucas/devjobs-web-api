@@ -33,7 +33,7 @@ var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<DataContext>();
-    //await db.Database.EnsureDeletedAsync();
+    await db.Database.EnsureDeletedAsync();
     if (await db.Database.EnsureCreatedAsync())
     {
         await SeedData.InitializeAsync(db);
@@ -59,32 +59,13 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 app.UseCors("corsapp");
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
 app.MapGet("/companies", async (DataContext context) => await context.Companies.ToListAsync());
 
 app.MapGet("/jobs", async (DataContext context) =>
 {
     var jobs = await context.Jobs
         .Include(j => j.Company)
+        .Include(j => j.Contract)
         .Include(j => j.Requirements).ThenInclude(r => r.Items)
         .Include(j => j.Role).ThenInclude(r => r.Items)
         .ToListAsync();
@@ -96,6 +77,7 @@ app.MapGet("/jobs/{id:int}", async (DataContext context, int id) =>
 {
     var job = await context.Jobs
         .Include(j => j.Company)
+        .Include(j => j.Contract)
         .Include(j => j.Requirements).ThenInclude(r => r.Items)
         .Include(j => j.Role).ThenInclude(r => r.Items)
         .Where(j => j.Id == id)
@@ -108,10 +90,11 @@ app.MapGet("jobs/summaries", async (DataContext context) =>
 {
     var summaries = await context.Jobs
         .Include(j => j.Company)
+        .Include(j => j.Contract)
         .OrderByDescending(j => j.PostedAt)
         .ToListAsync();
 
-    var result = from job in summaries select new { Id = job.Id, Company = job.Company.Name, PostedAt = job.PostedAt, Position = job.Position, Contract = job.ContractType, Location = job.Location, BackgroundColor = job.Company.LogoBackground };
+    var result = from job in summaries select new { Id = job.Id, Company = job.Company.Name, PostedAt = job.PostedAt, Position = job.Position, Contract = job.Contract, Location = job.Location, BackgroundColor = job.Company.LogoBackground };
 
     return result;
 });
@@ -120,17 +103,21 @@ app.MapPost("/jobs", async (CreateJob request, DataContext context) =>
 {
     Job job = new Job
     {
-        ContractType = request.ContractType,
         Description = request.Description,
         Location = request.Location,
         Position = request.Position,
-        PostedAt = DateTime.Now,
     };
 
     var company = context.Companies.Find(request.CompanyId);
     if (company is not null)
     {
         job.Company = company;
+    }
+
+    var contract = context.Contracts.Find(request.ContractId);
+    if (contract is not null)
+    {
+        job.Contract = contract;
     }
 
     Requirements requirements = new Requirements();
@@ -158,12 +145,6 @@ app.MapPost("/jobs", async (CreateJob request, DataContext context) =>
 
     context.Jobs.Add(job);
 
-    //requirements.Job = job;
-    //context.Requirements.Add(requirements);
-
-    //context.Roles.Add(role);
-    //role.Job = job;
-
     await context.SaveChangesAsync();
 
     return job;
@@ -175,8 +156,3 @@ app.MapGet("contracts", async (DataContext context) =>
 });
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

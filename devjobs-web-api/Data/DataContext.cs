@@ -18,16 +18,16 @@ public class DataContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Job>()
-            .HasOne(e => e.Company)
-            .WithMany()
-            .HasForeignKey(e => e.CompanyId)
-            .IsRequired();
+            .HasOne(e => e.Company);
 
         modelBuilder.Entity<Job>()
             .HasOne(e => e.Requirements)
             .WithOne(e => e.Job)
             .HasForeignKey<Requirements>(e => e.JobId)
             .IsRequired();
+
+        modelBuilder.Entity<Job>()
+            .HasOne(e => e.Contract);
 
         modelBuilder.Entity<Requirements>()
             .HasMany(e => e.Items)
@@ -46,7 +46,5 @@ public class DataContext : DbContext
             .WithOne(e => e.Role)
             .HasForeignKey(e => e.RoleId)
             .IsRequired();
-
-        modelBuilder.Entity<Contract>();
     }
 }

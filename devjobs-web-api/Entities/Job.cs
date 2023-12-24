@@ -6,8 +6,8 @@ public class Job
     public Company Company { get; set; }
     public int CompanyId { get; set; }
     public string Position { get; set; }
-    public DateTime PostedAt { get; set; }
-    public string ContractType { get; set; }
+    public DateTime PostedAt { get; set; } = DateTime.Now;
+    public Contract Contract { get; set; }
     public string Location { get; set; }
     public string Description { get; set; }
     public Requirements Requirements { get; set; }

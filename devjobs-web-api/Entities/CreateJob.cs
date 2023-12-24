@@ -4,7 +4,7 @@ public class CreateJob
 {
     public int CompanyId { get; set; }
     public string Position { get; set; }
-    public string ContractType { get; set; }
+    public int ContractId { get; set; }
     public string Location { get; set; }
     public string Description { get; set; }
     public GenericModel Requirements { get; set; }
