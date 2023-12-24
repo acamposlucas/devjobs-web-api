@@ -1,54 +1,69 @@
-{{ this.form.getRawValue() | json }}
 <div class="mx-auto w-11/12 max-w-3xl mt-10">
     <form class="flex flex-col gap-2" [formGroup]="form">
-        <div>
-            <input name="position" placeholder="Position" formControlName="position" />
-        </div>
-        <div>
-            <select name="company" id="company" formControlName="companyId">
+        <h4>About</h4>
+        <mat-form-field>
+            <mat-label>Position</mat-label>
+            <input matInput required formControlName="position" placeholder="Ex. Software Engineer" value="">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Company</mat-label>
+            <select matNativeControl required formControlName="companyId">
                 @for (company of companies | async; track company.id) {
                 <option [value]="company.id">{{ company.name }}</option>
                 }
             </select>
-        </div>
-        <div>
-            <select name="contractType" id="contractType" formControlName="contractType">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Contract</mat-label>
+            <select matNativeControl required formControlName="contractType">
                 <option value="Full Time">Full Time</option>
                 <option value="Part Time">Part Time</option>
                 <option value="Remote">Remote</option>
             </select>
-        </div>
-        <div>
-            <input type="text" name="location" placeholder="Location" formControlName="location">
-        </div>
-        <div>
-            <textarea name="description" id="description" placeholder="Describe the job..."
-                formControlName="description"></textarea>
-        </div>
-        <div>
-            <div #requirementsContainer class="flex flex-col gap-2" formGroupName="requirements">
-                <textarea name="requirementsContent" id="requirementsContent"
-                    placeholder="Describe the requirements of the job..." formControlName="content"></textarea>
-                <div formArrayName="items" class="flex flex-col gap-2">
-                    @for (requirement of requirementItems.controls; track $index) {
-                    <input [formControlName]="$index" type="text" placeholder="{{'Requirement ' + ($index + 1)}}" />
-                    }
-                </div>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="location" placeholder="Ex. London" value="">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" placeholder="Ex. It makes me feel..."></textarea>
+        </mat-form-field>
+        <h4>Requirements</h4>
+        <div #requirementsContainer class="flex flex-col gap-2" formGroupName="requirements">
+            <mat-form-field class="example-full-width">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="content"
+                    placeholder="Describe the requirements of the job..."></textarea>
+            </mat-form-field>
+            <div formArrayName="items" class="flex flex-col gap-2">
+                @for (requirement of requirementItems.controls; track $index) {
+                <mat-form-field class="example-full-width">
+                    <mat-label>Requirement {{ $index + 1 }}</mat-label>
+                    <input matInput [formControlName]="$index" [id]="'requirementItem_' + $index"
+                        placeholder="Ex. Close collaboration with...">
+                </mat-form-field>
+                }
             </div>
-            <button type="button" (click)="addItem('requirements')">Add requirement</button>
         </div>
-        <div>
-            <div #rolesContainer class="flex flex-col gap-2" formGroupName="roles">
-                <textarea name="rolesContent" id="rolesContent" placeholder="Describe the role of the job..."
-                    formControlName="content"></textarea>
-                <div formArrayName="items" class="flex flex-col gap-2">
-                    @for (role of roleItems.controls; track $index) {
-                    <input [formControlName]="$index" type="text" placeholder="{{'Role ' + ($index + 1)}}" />
-                    }
-                </div>
+        <button mat-raised-button color="accent" class="w-fit" (click)="addItem('requirements')">Add
+            requirement</button>
+        <h4>Role</h4>
+        <div #rolesContainer class="flex flex-col gap-2" formGroupName="roles">
+            <mat-form-field class="example-full-width">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="content" placeholder="Describe the role of the job..."></textarea>
+            </mat-form-field>
+            <div formArrayName="items" class="flex flex-col gap-2">
+                @for (role of roleItems.controls; track $index) {
+                <mat-form-field class="example-full-width">
+                    <mat-label>Role {{ $index + 1 }}</mat-label>
+                    <input matInput [formControlName]="$index" placeholder="Ex. Assist in development...">
+                </mat-form-field>
+                }
             </div>
-            <button type="button" (click)="addItem('roles')">Add role</button>
         </div>
-        <button type="submit" (click)="onSubmit()">Create new job</button>
+        <button mat-raised-button color="accent" class="w-fit" (click)="addItem('roles')">Add role</button>
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Create new job</button>
     </form>
 </div>
