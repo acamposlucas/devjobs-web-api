@@ -7,7 +7,7 @@
         <div class="flex gap-3 items-center text-secondary-grey-700">
             <time [attr.datetime]="job.postedAt">{{job.postedAt | dateAgo }}</time>
             <span class="w-1 h-1 rounded-full bg-secondary-grey-700 block"></span>
-            <span>{{job.contract}}</span>
+            <span>{{job.contract.type}}</span>
         </div>
         <h1 class="font-bold text-xl">{{job.position}}</h1>
         <strong class="font-normal text-secondary-grey-700">{{job.company}}</strong>

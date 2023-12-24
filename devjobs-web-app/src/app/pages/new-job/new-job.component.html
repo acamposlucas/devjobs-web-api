@@ -15,10 +15,10 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Contract</mat-label>
-            <select matNativeControl required formControlName="contractType">
-                <option value="Full Time">Full Time</option>
-                <option value="Part Time">Part Time</option>
-                <option value="Remote">Remote</option>
+            <select matNativeControl required formControlName="contractId">
+                @for (contract of contracts | async; track contract.id) {
+                    <option [value]="contract.id">{{contract.type}}</option>
+                }
             </select>
         </mat-form-field>
         <mat-form-field>

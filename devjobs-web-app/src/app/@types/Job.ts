@@ -1,4 +1,4 @@
-import { Company } from "./Company"
+import { Company, Contract } from "./index"
 
 export interface Job {
     id: number,
@@ -6,7 +6,7 @@ export interface Job {
     companyId: number,
     position: string,
     postedAt: Date,
-    contractType: string,
+    contract: Contract,
     location: string,
     description: string,
     requirements: Requirements,
@@ -20,7 +20,7 @@ export interface JobSummary {
     company: string,
     postedAt: Date,
     position: string,
-    contract: string,
+    contract: Contract,
     location: string,
     backgroundColor: string
 }

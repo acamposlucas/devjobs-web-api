@@ -6,11 +6,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 
-import { Company } from '../../@types/Company';
 import { CompanyService } from '../../services/company.service';
 import { Observable } from 'rxjs';
 import { JobService } from '../../services/job.service';
-import { CreateJob } from '../../@types';
+import { Company, Contract, CreateJob } from '../../@types';
+import { ContractService } from '../../services/contract.service';
 
 @Component({
   selector: 'app-new-job',
@@ -28,13 +28,14 @@ import { CreateJob } from '../../@types';
 })
 export class NewJobComponent {
   companies: Observable<Company[]> = this.companyService.getCompanies();
+  contracts: Observable<Contract[]> = this.contractService.getContractTypes();
   @ViewChild('requirements') requirementsContainer!: ElementRef<HTMLDivElement>;
   @ViewChild('roles') rolesContainer!: ElementRef<HTMLDivElement>;
 
   form = this.fb.group({
     companyId: ['', Validators.compose([Validators.required])],
     position: ['', Validators.compose([Validators.required])],
-    contractType: ['', Validators.compose([Validators.required])],
+    contractId: ['', Validators.compose([Validators.required])],
     location: ['', Validators.compose([Validators.required])],
     description: ['', Validators.compose([Validators.required])],
     requirements: this.fb.group({
@@ -47,7 +48,7 @@ export class NewJobComponent {
     }),
   })
 
-  constructor(private fb: FormBuilder, private companyService: CompanyService, private jobService: JobService) {
+  constructor(private fb: FormBuilder, private companyService: CompanyService, private jobService: JobService, private contractService: ContractService) {
   }
 
   addItem(type: string): void {

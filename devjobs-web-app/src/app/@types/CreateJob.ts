@@ -1,7 +1,7 @@
 export interface CreateJob {
     companyId: string,
     position: string,
-    contractType: string,
+    contractId: string,
     location: string,
     description: string,
     requirements: {
