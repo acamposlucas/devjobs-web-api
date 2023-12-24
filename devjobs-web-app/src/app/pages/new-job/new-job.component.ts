@@ -61,8 +61,8 @@ export class NewJobComponent {
 
   onSubmit() {
     const newJob: CreateJob = this.form.getRawValue() as CreateJob;
-    console.log(newJob);
     this.jobService.createJob(newJob);
+    this.form.reset();
   }
 
   get requirements() {
