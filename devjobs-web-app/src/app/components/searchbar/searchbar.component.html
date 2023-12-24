@@ -1,6 +1,6 @@
 <div class="bg-white w-full rounded-md ps-6 pe-4 py-4">
     <form class="flex justify-between items-center">
-        <input type="text" placeholder="Filter by title...">
+        <input type="text" placeholder="Filter by title..." (input)="emitQueryEvent($event)">
         <div>
             <button type="button" class="me-4" (click)="openDialog()">
                 <svg class="fill-secondary-grey-700" width="20" height="20" xmlns="http://www.w3.org/2000/svg">

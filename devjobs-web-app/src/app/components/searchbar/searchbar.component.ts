@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-searchbar',
@@ -14,6 +14,13 @@ export class SearchbarComponent {
   @ViewChild('myDialog') dialog!: ElementRef<HTMLDialogElement>;
   @ViewChild('dialogContainer') dialogContainer!: ElementRef<HTMLDivElement>
   private isDialogOpen: boolean = false;
+
+  @Output() query = new EventEmitter<string>();
+
+  emitQueryEvent(event: Event) {
+    const { value } = event.target as HTMLInputElement;
+    this.query.emit(value.trim());
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
