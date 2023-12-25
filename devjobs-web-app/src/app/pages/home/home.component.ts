@@ -21,23 +21,12 @@ import { Observable, debounceTime, distinctUntilChanged, map } from 'rxjs';
 })
 export class HomeComponent {
 
-  jobList$ = this.jobService.getJobsSummariesList();
-  filteredJobs$: Observable<JobSummary[]>
+  jobs$: Observable<JobSummary[]> = this.jobService.getJobsSummariesList();
   query: string = '';
 
-  constructor(private jobService: JobService) {
-    this.filteredJobs$ = this.jobList$;
-  }
+  constructor(private jobService: JobService) { }
 
-  onFilterChange(query: string) {
-    this.filteredJobs$ = this.jobList$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      map(x =>
-        x.filter(
-          i => i.position.toLowerCase().includes(query.toLowerCase())
-        )
-      )
-    );
+  onFilterChange(query: string): void {
+    this.query = query;
   }
 }

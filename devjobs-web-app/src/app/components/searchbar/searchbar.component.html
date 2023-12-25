@@ -1,7 +1,8 @@
 <div class="bg-white w-full rounded-md ps-6 pe-4 py-4">
-    <form class="flex justify-between items-center">
-        <input type="text" placeholder="Filter by title..." (input)="emitQueryEvent($event)">
-        <div>
+    <div class="flex justify-between items-center">
+        <input [(ngModel)]="query" (input)="emitQueryEvent()" type="search" placeholder="Filter by title..."
+            class="w-full py-4 px-4">
+        <div class="flex items-center gap-2">
             <button type="button" class="me-4" (click)="openDialog()">
                 <svg class="fill-secondary-grey-700" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -18,7 +19,7 @@
                 </svg>
             </button>
         </div>
-    </form>
+    </div>
 </div>
 <dialog #myDialog class="rounded-md bg-white max-w-lg">
     <div #dialogContainer>
