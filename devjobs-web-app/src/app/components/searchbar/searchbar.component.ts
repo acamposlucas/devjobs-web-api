@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SearchFilter } from '../../@types';
 
 @Component({
   selector: 'app-searchbar',
@@ -17,11 +18,16 @@ export class SearchbarComponent {
   @ViewChild('dialogContainer') dialogContainer!: ElementRef<HTMLDivElement>
   private isDialogOpen: boolean = false;
 
-  query: string = '';
-  @Output() queryEvent = new EventEmitter<string>();
+  searchFilter: SearchFilter = {
+    query: '',
+    location: '',
+    fullTimeOnly: false
+  };
+  @Output() queryEvent = new EventEmitter<SearchFilter>();
 
-  emitQueryEvent() {
-    this.queryEvent.emit(this.query.toLowerCase().trim());
+  emitFilterEvent() {
+    this.queryEvent.emit(this.searchFilter);
+    this.closeDialog();
   }
 
   @HostListener('document:click', ['$event'])

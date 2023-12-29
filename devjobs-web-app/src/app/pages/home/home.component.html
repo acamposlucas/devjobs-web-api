@@ -5,7 +5,9 @@
     <main class="mt-24">
         <section class="grid gap-14 grid-cols-fit-sm">
             @for (job of jobs$ | async; track job.id) {
-            @if (query === '' || job.position.toLowerCase().includes(query)) {
+            @if (
+            job.position.toLowerCase().includes(searchFilter.query) &&
+            job.location.toLowerCase().includes(searchFilter.location)) {
             <a [routerLink]="['job', job.id]">
                 <app-jobcard [job]="job"></app-jobcard>
             </a>
