@@ -61,6 +61,20 @@ app.UseCors("corsapp");
 
 app.MapGet("/companies", async (DataContext context) => await context.Companies.ToListAsync());
 
+app.MapGet("/companies/{id:int}/jobs", async (DataContext context, int id) =>
+{
+    var jobsByCompany = await context.Jobs
+        .Include(x => x.Requirements)
+        .ThenInclude(x => x.Items)
+        .Include(x => x.Role)
+        .ThenInclude(x => x.Items)
+        .Include(x => x.Company)
+        .Where(x => x.CompanyId == id)
+        .ToListAsync();
+
+    return jobsByCompany;
+});
+
 app.MapGet("/jobs", async (DataContext context) =>
 {
     var jobs = await context.Jobs
